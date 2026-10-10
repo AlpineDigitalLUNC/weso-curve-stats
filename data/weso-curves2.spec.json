@@ -1,0 +1,48 @@
+{
+  "id": "weso-curves-2.0",
+  "name": "WESO Curves 2.0",
+  "description": "Price of one WESO in LUNC as a function of curve supply. Geometric growth per 100M WESO grid step, straight lines between grid points.",
+  "source": {
+    "file": "bot/knowledge/lanes/token/deep-dive-2026-10-08/sources/nas-derived/curves2.txt",
+    "sheet": "Curves 2.0 (B2:AU88), right-hand 'WESO Bonding Curve' table, plus 'Input Data' inflection points (B2:I35)",
+    "note": "The sheet starts at supply 1 (price 1). The model starts at supply 0; the difference is below 1e-8 LUNC."
+  },
+  "units": { "supply": "WESO", "price": "LUNC per WESO", "reserve": "LUNC" },
+  "model": "geometric-grid",
+  "grid_step": 100000000,
+  "anchors": [
+    [0, 1],
+    [1000000000, 200],
+    [2500000000, 800],
+    [4200000000, 1025],
+    [6000000000, 1550],
+    [7000000000, 2523.05]
+  ],
+  "extra_knots": [
+    {
+      "supply": 10000000,
+      "why": "Row 2 of the sheet (10M, 1.05441 = 1.69865^0.1). Chain sells match a straight line 0 -> 10M -> 100M (1.340738 at 50M), not a single 0 -> 100M line."
+    }
+  ],
+  "cap_supply": 7000000000,
+  "buy_net_factor": 0.9801,
+  "buy_net_factor_note": "Two ~1% cuts on buys (0.99 x 0.99). Tokens out solve: area under the curve = 0.9801 x LUNC paid. Buys under 500 LUNC simulate as zero.",
+  "past_cap_behaviour": {
+    "verified_on_block": 30751567,
+    "summary": "Chain simulate fills to 6,999.996M at 2,523.04 LUNC with 6.639025e12 LUNC paid. Payments from 6.640e12 to 6.917e12 return zero. At 7.0958e12 the simulate jumps to 15,788.975M WESO at 49.367 LUNC, then rises about 0.005441 LUNC per 1M WESO (30B: 126.69, 50B: 235.52, 70B: 344.34). The sheet has no price past 7B, so the page does not draw it.",
+    "source": "bot/knowledge/lanes/token/deep-dive-2026-10-08/sources/cloud-pass/lcd-followup.json (cliff) and lcd-sweep.json (weso_buy_to_supply)"
+  },
+  "design_schedule": {
+    "source": "curves2.txt 'Input Data' and 'Mining Schedule' tables",
+    "unit": "million WESO in circulation",
+    "premine": 1000,
+    "yearly": [200, 400, 500, 700, 800, 1000, 800, 700, 500, 400],
+    "within_year": "linear (the sheet's monthly table mines a constant amount per month inside each year)",
+    "sheet_assumptions": {
+      "swap_tax": 0.01,
+      "staked_with_preferred_validators": 0.9,
+      "held_in_lunc_reserve_pool": 0.1,
+      "estimated_staking_rewards": 0.085
+    }
+  }
+}

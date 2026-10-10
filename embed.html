@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WESO chart · Bonding Curve Stats</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/img/weso_favicon.png" />
+  <link rel="preload" href="assets/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="vendor/echarts-5.5.1.custom.min.js" defer></script>
+  <script src="data/history-bundle.js" defer></script>
+  <script src="assets/history.js" defer></script>
+</head>
+<body class="embed">
+  <!-- Usage: embed.html?chart=price|volume|mcap|tvl&range=24h|7d|30d|1y|all&ccy=usd|lunc -->
+  <main id="root" class="embed-root"></main>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      var p = new URLSearchParams(location.search);
+      WesoHistory.embed(document.getElementById("root"), { chart: p.get("chart"), range: p.get("range"), ccy: p.get("ccy") });
+    });
+  </script>
+</body>
+</html>

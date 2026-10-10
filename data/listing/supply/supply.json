@@ -1,0 +1,30 @@
+{
+ "last_updated": "2026-10-10T13:46:56Z",
+ "block_height": 30776545,
+ "total_supply": 1016008192,
+ "circulating_supply": 613396283.929,
+ "max_supply": null,
+ "design_max_supply": 7000000000,
+ "non_circulating": [
+  {
+   "address": "terra13ryrrlcskwa05cd94h54c8rnztff9l82pp0zqnfvlwt77za8wjjsld36ms",
+   "label": "WESO contract (XYK sell inventory)",
+   "balance": 8284220.76912
+  },
+  {
+   "address": "terra1xym3yrnzqpqxnvdn8txtpfvx0hvknp5deg3pcng6m6820jz5ddjqs3pce3",
+   "label": "Capacitor DAO pool (hard-coded in the WESO wasm)",
+   "balance": 318216115.007
+  },
+  {
+   "address": "terra1wkdm6wcm4srahrvp09jea7csfq3yuacc4gmyft6p6n6pls9wy5js9lqhqq",
+   "label": "Luna Classic DAO treasury",
+   "balance": 72096978.0432
+  },
+  {
+   "address": "terra1n3rrtu8k957my5elc8nh2vhdf0ew3wemtmspjul6uqltfafd8qxqk3dz4f",
+   "label": "WESO DeFi Sub-DAO",
+   "balance": 4014594.25184
+  }
+ ]
+}

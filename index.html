@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>WESO Bonding Curve Stats</title>
+  <meta name="description" content="Live bonding-curve stats, price history, market cap, volume and TVL for WESO (LUNC curve) and reBASE (USTC curve) on Terra Classic." />
+  <meta name="theme-color" content="#030309" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="assets/img/weso_favicon.png" />
+  <link rel="preload" href="assets/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script src="vendor/echarts-5.5.1.custom.min.js" defer></script>
+  <script src="assets/curve-model.js" defer></script>
+  <script src="data/bundle.js" defer></script>
+  <script src="assets/app.js" defer></script>
+</head>
+<body class="is-loading">
+  <a class="skip" href="#chart">Skip to the chart</a>
+  <div class="sky" aria-hidden="true"></div>
+
+  <div class="preview-banner" role="note"><i></i> Team preview · do not share <i></i></div>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="https://weso.world" rel="noopener">
+        <img src="assets/img/weso-logo.png" alt="WESO" width="32" height="32" />
+        <span class="brand-text">WESO <span class="brand-sub">DeFi</span></span>
+      </a>
+      <nav class="topnav" aria-label="Sections">
+        <a href="#chart">Curve</a>
+        <a href="#history">History</a>
+        <a href="#stats">Stats</a>
+        <a href="#milestones">Milestones</a>
+        <a href="#notes">Notes</a>
+        <a href="methodology.html">Methodology</a>
+      </nav>
+      <div class="status">
+        <span id="status-pill" class="pill pill-wait" title="Data source" aria-live="polite">
+          <span class="dot"></span><span id="status-text">Loading…</span>
+        </span>
+        <button id="refresh-btn" class="neon-btn small" type="button" title="Re-read the chain (read-only)">Refresh</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <section class="hero">
+      <p class="eyebrow">Terra Classic · Token bonding curves</p>
+      <h1 class="title"><span class="grad">BONDING CURVE</span> <span class="title-2">STATS</span></h1>
+      <p class="lede" id="hero-lede">Where the curve is today, what each milestone costs, how far the chain is from the plan.</p>
+
+      <div class="curve-tabs" id="curve-tabs" role="tablist" aria-label="Curves">
+        <span class="curve-tab skel" aria-hidden="true" style="width:150px"></span>
+        <span class="curve-tab skel" aria-hidden="true" style="width:150px"></span>
+      </div>
+
+      <div class="ticker" id="ticker" aria-live="polite">
+        <div class="tick"><div class="k skel" style="width:40%">&nbsp;</div><div class="skel skel-big"></div><div class="skel skel-line" style="width:50%"></div></div>
+        <div class="tick"><div class="k skel" style="width:40%">&nbsp;</div><div class="skel skel-big"></div><div class="skel skel-line" style="width:50%"></div></div>
+        <div class="tick"><div class="k skel" style="width:40%">&nbsp;</div><div class="skel skel-big"></div><div class="skel skel-line" style="width:50%"></div></div>
+        <div class="tick"><div class="k skel" style="width:40%">&nbsp;</div><div class="skel skel-big"></div><div class="skel skel-line" style="width:50%"></div></div>
+      </div>
+      <div class="progress" id="progress"></div>
+    </section>
+
+    <section id="chart" class="panel chart-panel">
+      <div class="panel-head">
+        <div>
+          <h2 class="section-title" id="chart-title">The curve</h2>
+          <p class="panel-sub" id="chart-sub">LUNC per WESO against curve supply. Spec <b>Curves 2.0</b>: geometric per 100M WESO, straight inside each step.</p>
+        </div>
+        <div class="seg" role="group" aria-label="Chart view" id="view-toggle">
+          <button type="button" data-view="supply" class="seg-btn active" aria-pressed="true">By supply</button>
+          <button type="button" data-view="time" class="seg-btn" aria-pressed="false">By year</button>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <div class="chips" id="zoom-chips" role="group" aria-label="Zoom"></div>
+        <div class="toggles">
+          <label class="toggle"><input type="checkbox" id="opt-log" /><span>Log price</span></label>
+          <label class="toggle"><input type="checkbox" id="opt-cum" checked /><span id="opt-cum-label">Cumulative</span></label>
+        </div>
+      </div>
+
+      <div class="chart-wrap" id="chart-wrap">
+        <div id="curve-chart" class="chart" role="img" aria-label="Bonding curve chart. The readout below reports the values at the marker." aria-describedby="readout"></div>
+        <div class="chart-skel" id="chart-skel" aria-hidden="true">
+          <svg viewBox="0 0 1000 300" preserveAspectRatio="none">
+            <defs><linearGradient id="skelgrad" x1="0" x2="1"><stop offset="0" stop-color="#f6339a"/><stop offset=".5" stop-color="#ac4bff"/><stop offset="1" stop-color="#00d2ef"/></linearGradient></defs>
+            <path d="M0 290 C 250 285, 500 240, 700 150 S 950 20, 1000 5" vector-effect="non-scaling-stroke"/>
+          </svg>
+        </div>
+        <div class="probe-marker" id="probe-marker" hidden>
+          <div class="line"></div>
+          <div class="dot"></div>
+          <div class="tag"></div>
+          <div class="grip" role="slider" tabindex="0" aria-label="Curve marker" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+        </div>
+      </div>
+
+      <div class="probe">
+        <div class="probe-head">
+          <label for="probe-range" class="probe-label">Marker <span class="probe-hint">· drag the handle · scroll or pinch to zoom</span></label>
+          <button type="button" class="link-btn" id="probe-now">Jump to now</button>
+        </div>
+        <input id="probe-range" type="range" min="0" max="1000" step="1" value="0" aria-label="Move the marker along the curve" />
+        <div class="readout" id="readout"></div>
+      </div>
+      <p class="footnote" id="chart-footnote"></p>
+    </section>
+
+    <section id="history" class="panel history-panel" aria-label="Price history and performance">
+      <div class="panel-head"><div><h2 class="section-title">Price history &amp; performance</h2><p class="panel-sub">Loading history…</p></div></div>
+    </section>
+
+    <section id="stats">
+      <h2 class="section-title">Stats</h2>
+      <div class="cards" id="cards"></div>
+    </section>
+
+    <section id="milestones" class="panel">
+      <div class="panel-head">
+        <div>
+          <h2 class="section-title">Milestones</h2>
+          <p class="panel-sub" id="ms-sub"></p>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="ms-table" id="ms-table"></table>
+      </div>
+      <p class="footnote" id="ms-footnote"></p>
+    </section>
+
+    <section id="notes">
+      <h2 class="section-title">Flags &amp; assumptions</h2>
+      <div class="notes" id="notes-list"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap" id="footer"></div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

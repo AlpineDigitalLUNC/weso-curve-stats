@@ -1,0 +1,305 @@
+{
+ "id": "rebase-sampled-2026-10-08",
+ "name": "reBASE (sampled)",
+ "description": "Spot price of one reBASE in USTC at sampled curve supplies, from LCD simulate. No numeric spec is published; the REBASE 1.0 chart only shows a 0-200M supply axis. Straight lines between samples.",
+ "source": {
+  "files": [
+   "bot/knowledge/lanes/token/deep-dive-2026-10-08/sources/cloud-pass/lcd-sweep.json (rebase.sells_to_supply, rebase.coarse_buys)",
+   "bot/knowledge/lanes/token/deep-dive-2026-10-08/sources/cloud-pass/lcd-followup.json (rebase_upper)"
+  ],
+  "block": {
+   "height": "30751567",
+   "time": "2026-10-08T20:42:00.931334742Z",
+   "chain_id": "columbus-5"
+  },
+  "note": "The point at supply 0 repeats the lowest sample (0.035 USTC from 0.1M to 5M)."
+ },
+ "units": {
+  "supply": "reBASE",
+  "price": "USTC per reBASE",
+  "reserve": "USTC"
+ },
+ "model": "sampled",
+ "buy_net_factor": 0.9801,
+ "buy_net_factor_note": "Assumed equal to WESO (same code family and tax params); not separately verified for reBASE.",
+ "max_sampled_supply": 190425875,
+ "zero_result_from_ustc": 6436342999.999996,
+ "samples": [
+  {
+   "supply": 100000,
+   "price": 0.035,
+   "from": "sell simulate"
+  },
+  {
+   "supply": 1000000,
+   "price": 0.035,
+   "from": "sell simulate"
+  },
+  {
+   "supply": 5000000,
+   "price": 0.03501,
+   "from": "sell simulate"
+  },
+  {
+   "supply": 10000000,
+   "price": 0.035341,
+   "from": "sell simulate"
+  },
+  {
+   "supply": 20000000,
+   "price": 0.049672,
+   "from": "sell simulate"
+  },
+  {
+   "supply": 30000000,
+   "price": 0.159128,
+   "from": "sell simulate"
+  },
+  {
+   "supply": 35000000,
+   "price": 0.309277,
+   "from": "sell simulate"
+  },
+  {
+   "supply": 37000000,
+   "price": 0.400245,
+   "from": "sell simulate"
+  },
+  {
+   "supply": 37687920,
+   "price": 0.439167,
+   "from": "curve_info"
+  },
+  {
+   "supply": 37688139,
+   "price": 0.439179,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 37688612,
+   "price": 0.439206,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 37690107,
+   "price": 0.439291,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 37694832,
+   "price": 0.439558,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 37709756,
+   "price": 0.440402,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 37756763,
+   "price": 0.443062,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 37903588,
+   "price": 0.451369,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 38351069,
+   "price": 0.476687,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 39626026,
+   "price": 0.557678,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 42710489,
+   "price": 0.80083,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 48551385,
+   "price": 1.50899,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 57315065,
+   "price": 3.43781,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 68837061,
+   "price": 8.570313,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 83079207,
+   "price": 23.255895,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 104052768,
+   "price": 37.35973,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 151922523,
+   "price": 48.080154,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 152671686,
+   "price": 48.639234,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 161344924,
+   "price": 58.310506,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 170090252,
+   "price": 62.310139,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 179663378,
+   "price": 64.91889,
+   "from": "buy simulate"
+  },
+  {
+   "supply": 190425875,
+   "price": 65.931247,
+   "from": "buy simulate"
+  }
+ ],
+ "knots": [
+  [
+   0,
+   0.035
+  ],
+  [
+   100000,
+   0.035
+  ],
+  [
+   1000000,
+   0.035
+  ],
+  [
+   5000000,
+   0.03501
+  ],
+  [
+   10000000,
+   0.035341
+  ],
+  [
+   20000000,
+   0.049672
+  ],
+  [
+   30000000,
+   0.159128
+  ],
+  [
+   35000000,
+   0.309277
+  ],
+  [
+   37000000,
+   0.400245
+  ],
+  [
+   37687920,
+   0.439167
+  ],
+  [
+   37688139,
+   0.439179
+  ],
+  [
+   37688612,
+   0.439206
+  ],
+  [
+   37690107,
+   0.439291
+  ],
+  [
+   37694832,
+   0.439558
+  ],
+  [
+   37709756,
+   0.440402
+  ],
+  [
+   37756763,
+   0.443062
+  ],
+  [
+   37903588,
+   0.451369
+  ],
+  [
+   38351069,
+   0.476687
+  ],
+  [
+   39626026,
+   0.557678
+  ],
+  [
+   42710489,
+   0.80083
+  ],
+  [
+   48551385,
+   1.50899
+  ],
+  [
+   57315065,
+   3.43781
+  ],
+  [
+   68837061,
+   8.570313
+  ],
+  [
+   83079207,
+   23.255895
+  ],
+  [
+   104052768,
+   37.35973
+  ],
+  [
+   151922523,
+   48.080154
+  ],
+  [
+   152671686,
+   48.639234
+  ],
+  [
+   161344924,
+   58.310506
+  ],
+  [
+   170090252,
+   62.310139
+  ],
+  [
+   179663378,
+   64.91889
+  ],
+  [
+   190425875,
+   65.931247
+  ]
+ ]
+}

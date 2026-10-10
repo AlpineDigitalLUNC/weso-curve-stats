@@ -1,0 +1,90 @@
+{
+ "generated_by": "scripts/refresh-snapshot.mjs",
+ "lcd": "https://terra-classic-lcd.publicnode.com",
+ "block": {
+  "height": 30776123,
+  "time": "2026-10-10T13:05:20.090536130Z",
+  "chain_id": "columbus-5"
+ },
+ "curves": {
+  "weso": {
+   "curve_supply": 689128079.076591,
+   "spot_price": 38.981056,
+   "reserve_notional": 7253343066.917223,
+   "tax_collected": 245219693.560073,
+   "reserve_denom": "uluna",
+   "total_supply": 1016008192,
+   "minter_cap": null,
+   "contract_token_balance": 8285209.156093,
+   "contract_bank": {
+    "uluna": 322965882.849231
+   }
+  },
+  "rebase": {
+   "curve_supply": 37687920.312674,
+   "spot_price": 0.439167,
+   "reserve_notional": 3773943.363332,
+   "tax_collected": 150055.592912,
+   "reserve_denom": "uusd",
+   "total_supply": 36646811.684049,
+   "minter_cap": null,
+   "contract_token_balance": 2273005.860112,
+   "contract_bank": {
+    "uluna": 1124876.507175,
+    "uusd": 992590.521415
+   }
+  }
+ },
+ "staking": {
+  "validator_dao": "terra17x9tpp4ngn7hywnaleeqwjszyzws7hpy8tx0w35swyevuf9g4c9ssl7tml",
+  "total_delegated_lunc": 6995110413.185722,
+  "validators": [
+   {
+    "operator": "terravaloper1c7dhgf6lx6fy829tf30tvawj86u0gprda2eg4m",
+    "moniker": "LUNCLIVE🎙🔥",
+    "commission": 0.09958262193564124,
+    "delegated_lunc": 3455380723.174048
+   },
+   {
+    "operator": "terravaloper12drl99s75jslgmk48v9fpqxqjadye2dfrgyasw",
+    "moniker": "Alpine Digital",
+    "commission": 0.0732,
+    "delegated_lunc": 1770190361.582009
+   },
+   {
+    "operator": "terravaloper1yz3hv2k3a5z3tuu7fufcf7xvn2aawcu7c99lag",
+    "moniker": "LUNA CLASSIC DAO",
+    "commission": 0.025,
+    "delegated_lunc": 1769539328.429666
+   }
+  ]
+ },
+ "usd": {
+  "source": "CoinGecko simple/price",
+  "prices": {
+   "terra-luna": {
+    "usd": 0.00005119,
+    "at": "2026-10-10T13:05:22.000Z"
+   },
+   "terrausd": {
+    "usd": 0.0054191,
+    "at": "2026-10-10T13:05:22.000Z"
+   }
+  }
+ },
+ "site_api": {
+  "fetched_at": "2026-10-10T13:05:30.218Z",
+  "stats": {
+   "supply": 689128079.076591,
+   "totalSupply": 10000000000,
+   "burned": 9310871920.923409,
+   "reserve": 7253343066.917223
+  },
+  "prices_usd": {
+   "WESO": 0.001995741654437974,
+   "LUNC": 0.000051197731904389,
+   "USTC": 0.005082967042195212,
+   "REBASE": 0.002232271387019745
+  }
+ }
+}

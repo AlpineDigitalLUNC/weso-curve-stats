@@ -1,0 +1,86 @@
+{
+ "id": "weso",
+ "symbol": "WESO",
+ "name": "WESO Token",
+ "chain": "terra-classic",
+ "chain_id": "columbus-5",
+ "contract_address": "terra13ryrrlcskwa05cd94h54c8rnztff9l82pp0zqnfvlwt77za8wjjsld36ms",
+ "token_standard": "CW20",
+ "decimals": 6,
+ "last_updated": "2026-10-10T13:46:56Z",
+ "block_height": 30776545,
+ "price_usd": 0.00199593680885,
+ "price_lunc": 38.980733,
+ "lunc_usd": 0.0000512031625688,
+ "total_supply": 1016008192,
+ "circulating_supply": 613396283.929,
+ "max_supply": null,
+ "max_supply_note": "No mint cap on chain (minter is the contract itself, cap null). The Curves 2.0 design targets 7,000,000,000.",
+ "design_max_supply": 7000000000,
+ "market_cap_usd": 1224300.2215,
+ "fully_diluted_valuation_usd": 2027888.14851,
+ "fdv_basis": "total_supply (no max supply on chain)",
+ "volume_24h_usd": 720.777296299,
+ "volume_24h_lunc": 14282103.2297,
+ "trades_24h": 124,
+ "volume_7d_usd": 1432.91142363,
+ "tvl_onchain_usd": 374704.818911,
+ "tvl_defillama_usd": 390272,
+ "price_change": {
+  "24h": {
+   "lunc": -0.0013842787537510226,
+   "usd": 0.01625383251957846
+  },
+  "7d": {
+   "lunc": -0.0014228815929346883,
+   "usd": -0.016375627602501885
+  },
+  "30d": null
+ },
+ "non_circulating": [
+  {
+   "address": "terra13ryrrlcskwa05cd94h54c8rnztff9l82pp0zqnfvlwt77za8wjjsld36ms",
+   "label": "WESO contract (XYK sell inventory)",
+   "balance": 8284220.76912
+  },
+  {
+   "address": "terra1xym3yrnzqpqxnvdn8txtpfvx0hvknp5deg3pcng6m6820jz5ddjqs3pce3",
+   "label": "Capacitor DAO pool (hard-coded in the WESO wasm)",
+   "balance": 318216115.007
+  },
+  {
+   "address": "terra1wkdm6wcm4srahrvp09jea7csfq3yuacc4gmyft6p6n6pls9wy5js9lqhqq",
+   "label": "Luna Classic DAO treasury",
+   "balance": 72096978.0432
+  },
+  {
+   "address": "terra1n3rrtu8k957my5elc8nh2vhdf0ew3wemtmspjul6uqltfafd8qxqk3dz4f",
+   "label": "WESO DeFi Sub-DAO",
+   "balance": 4014594.25184
+  }
+ ],
+ "non_circulating_total": 402611908.071,
+ "sources": {
+  "price": "curve_info.spot_price on the WESO contract (LUNC per WESO) x LUNC/USD from CoinGecko",
+  "supply": "token_info.total_supply; circulating = total minus non_circulating balances (CW20 balance queries)",
+  "volume": "Swap events on the WESO curve and WesoSwap pools from the LCD tx index",
+  "tvl_onchain": "Liquid LUNC in the WESO contract plus LUNC delegated by the Validator Network DAO",
+  "tvl_defillama": "https://api.llama.fi/protocol/weso-defi (protocol-wide, includes CW20 wrap vaults and AMM pools)"
+ },
+ "methodology": "methodology.html",
+ "links": {
+  "website": "https://weso.world",
+  "twitter": "https://x.com/WESOWorld",
+  "defillama": "https://defillama.com/protocol/weso-defi",
+  "contract_info": "https://lcd.terra-classic.hexxagon.io/cosmwasm/wasm/v1/contract/terra13ryrrlcskwa05cd94h54c8rnztff9l82pp0zqnfvlwt77za8wjjsld36ms"
+ },
+ "coverage": {
+  "chain_history_from": "2026-09-30T20:00:00Z",
+  "trades_from": "2026-09-23T02:36:29Z",
+  "price_from_trades_from": "2026-09-23T02:36:29Z",
+  "supply_rebuild_max_error_weso": 8.34465026855e-7,
+  "spec_vs_spot_max_rel_error": 2.21001548173e-8,
+  "defillama_from": "2026-09-07T00:00:00Z",
+  "note": "Public LCDs prune state and the tx index after about 2-3 weeks. Earlier daily history needs an archive node."
+ }
+}

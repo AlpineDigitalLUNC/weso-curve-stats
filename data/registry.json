@@ -1,0 +1,130 @@
+{
+ "chain": {
+  "name": "Terra Classic",
+  "chain_id": "columbus-5",
+  "lcd": ["https://terra-classic-lcd.publicnode.com"],
+  "history_lcd": "https://lcd.terra-classic.hexxagon.io",
+  "history_lcd_note": "Used for historical state because it echoes x-cosmos-block-height. publicnode served cached state for other heights during testing (2026-10-10).",
+  "contract_info_path": "/cosmwasm/wasm/v1/contract/"
+ },
+ "site_api": {
+  "stats": "https://weso.world/api/stats",
+  "prices": "https://weso.world/api/prices",
+  "note": "weso.world's API does not send CORS headers, so the browser cannot read it. Its values come from the snapshot only."
+ },
+ "staking": {
+  "validator_dao": "terra17x9tpp4ngn7hywnaleeqwjszyzws7hpy8tx0w35swyevuf9g4c9ssl7tml",
+  "dao_name": "Validator Network DAO",
+  "dao_governance": "DAO DAO v2.6.0, 4 members at 25% each, 60% threshold",
+  "to_validator_share": 0.8
+ },
+ "curves": [
+  {
+   "id": "weso",
+   "label": "WESO",
+   "name": "WESO Token",
+   "tagline": "LUNC bonding curve",
+   "logo": "assets/img/weso-logo.png",
+   "contract": "terra13ryrrlcskwa05cd94h54c8rnztff9l82pp0zqnfvlwt77za8wjjsld36ms",
+   "code_id": 11462,
+   "decimals": 6,
+   "reserve": { "symbol": "LUNC", "denom": "uluna", "coingecko_id": "terra-luna" },
+   "spec_file": "data/weso-curves2.spec.json",
+   "spec_status": "verified",
+   "spec_label": "Curves 2.0 (verified on chain)",
+   "milestones": [1000000000, 2500000000, 4200000000, 6000000000, 7000000000],
+   "zooms": [
+    { "label": "0–1B", "from": 0, "to": 1000000000 },
+    { "label": "1–2.5B", "from": 1000000000, "to": 2500000000 },
+    { "label": "2.5–4.2B", "from": 2500000000, "to": 4200000000 },
+    { "label": "4.2–6B", "from": 4200000000, "to": 6000000000 },
+    { "label": "6–7B", "from": 6000000000, "to": 7000000000 },
+    { "label": "Full", "from": 0, "to": 7000000000 }
+   ],
+   "timeline": {
+    "launch_anchor": "2025-01-22",
+    "launch_anchor_note": "Public launch was 22–31 Jan 2025 (deep dive timeline). The contract was instantiated around late Dec 2024 (block 21,351,498; date estimated because public nodes have pruned it). Year 1 of 10 is taken to start on 22 Jan 2025.",
+    "mining": { "block_minutes": 6, "block_reward": 10, "source": "weso.world/api/mining/config (2026-10-08): block_time_minutes 6, block_reward 10" }
+   },
+   "tax": {
+    "project_tax_pct": 1.0,
+    "split": [
+     { "pool": "Reserve", "pct": 25 },
+     { "pool": "Operations", "pct": 35 },
+     { "pool": "Growth", "pct": 25 },
+     { "pool": "Development", "pct": 15 }
+    ],
+    "source": "param_info: reserve 250 / operations 350 / growth 250 / development 150 (per mille), project_tax_pct 10 (per mille), to_validator_pct 800"
+   },
+   "sell": {
+    "model": "xyk",
+    "loss": 0.015,
+    "note": "Sells settle through a constant-product pool on the contract's own balances (WESO it holds versus liquid LUNC), not at the curve price. About 1.5% is lost on the way out.",
+    "chain_examples": [
+     { "weso": 1000000, "lunc_out": 34400000 },
+     { "weso": 10000000, "lunc_out": 177600000 },
+     { "weso": 680000000, "lunc_out": 325900000 }
+    ]
+   },
+   "listing": {
+    "id": "weso",
+    "max_supply": null,
+    "design_max_supply": 7000000000,
+    "non_circulating": [
+     { "address": "terra13ryrrlcskwa05cd94h54c8rnztff9l82pp0zqnfvlwt77za8wjjsld36ms", "label": "WESO contract (XYK sell inventory)" },
+     { "address": "terra1xym3yrnzqpqxnvdn8txtpfvx0hvknp5deg3pcng6m6820jz5ddjqs3pce3", "label": "Capacitor DAO pool (hard-coded in the WESO wasm)" },
+     { "address": "terra1wkdm6wcm4srahrvp09jea7csfq3yuacc4gmyft6p6n6pls9wy5js9lqhqq", "label": "Luna Classic DAO treasury" },
+     { "address": "terra1n3rrtu8k957my5elc8nh2vhdf0ew3wemtmspjul6uqltfafd8qxqk3dz4f", "label": "WESO DeFi Sub-DAO" }
+    ],
+    "documented_snapshots": [
+     {
+      "date": "2026-03-22",
+      "price_lunc": 39.71,
+      "note": "\"6.77 billion LUNC have been removed from circulation ... current ratio of 39.71 LUNC per WESO\"",
+      "source": "Medium, Luna Classic DAO (Official), 'WESO and Token Bonding Curves', published 03/22/26 (deep dive sources/site/medium_weso_tbc.txt)"
+     }
+    ]
+   },
+   "past_cap": {
+    "fill_lunc": 6639025000000,
+    "fill_supply": 6999996000,
+    "zero_band_lunc": [6640000000000, 6917000000000],
+    "jump_supply": 15788975000,
+    "jump_price": 49.367,
+    "slope_per_million": 0.005441,
+    "examples": [
+     { "supply": 30000000000, "price": 126.69 },
+     { "supply": 50000000000, "price": 235.52 },
+     { "supply": 70000000000, "price": 344.34 }
+    ]
+   }
+  },
+  {
+   "id": "rebase",
+   "label": "reBASE",
+   "name": "reBASE",
+   "tagline": "USTC bonding curve",
+   "logo": "assets/img/rebase-logo.png",
+   "contract": "terra1uewxz67jhhhs2tj97pfm2egtk7zqxuhenm4y4m",
+   "code_id": 11463,
+   "decimals": 6,
+   "reserve": { "symbol": "USTC", "denom": "uusd", "coingecko_id": "terrausd" },
+   "spec_file": "data/rebase-sampled.json",
+   "spec_status": "sampled",
+   "spec_label": "Sampled from chain simulate (no published spec)",
+   "milestones": [50000000, 100000000, 150000000, 190426000],
+   "zooms": [
+    { "label": "0–40M", "from": 0, "to": 40000000 },
+    { "label": "40–100M", "from": 40000000, "to": 100000000 },
+    { "label": "100–190M", "from": 100000000, "to": 190426000 },
+    { "label": "Full", "from": 0, "to": 190426000 }
+   ],
+   "facts": [
+    "Created at block 13,215,800 by terra12pvn7k6uc7hptqsdegg2synz4zgetqplr7ls8u (also admin).",
+    "Same tax split as WESO (25/35/25/15) and the same 80% to-validator parameter.",
+    "Buys of 6.44B USTC or more simulate as zero.",
+    "The REBASE 1.0 chart only shows a 0–200M supply axis; no numeric anchors are published."
+   ]
+  }
+ ]
+}

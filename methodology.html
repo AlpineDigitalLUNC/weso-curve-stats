@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Methodology · WESO Bonding Curve Stats</title>
+  <meta name="description" content="How the WESO stats page calculates price, total, circulating and max supply, market cap, volume, TVL and price history, with every contract address." />
+  <meta name="theme-color" content="#030309" />
+  <link rel="icon" href="assets/img/weso_favicon.png" />
+  <link rel="preload" href="assets/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="sky" aria-hidden="true"></div>
+
+  <div class="preview-banner" role="note"><i></i> Team preview · do not share <i></i></div>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="index.html">
+        <img src="assets/img/weso-logo.png" alt="WESO" width="32" height="32" />
+        <span class="brand-text">WESO <span class="brand-sub">DeFi</span></span>
+      </a>
+      <nav class="topnav" aria-label="Sections">
+        <a href="index.html#chart">Curve</a>
+        <a href="index.html#history">History</a>
+        <a href="#price">Price</a>
+        <a href="#supply">Supply</a>
+        <a href="#circulating">Circulating</a>
+        <a href="#history-data">History</a>
+        <a href="#contracts">Contracts</a>
+      </nav>
+      <div class="status"><a class="neon-btn small" href="index.html">← Stats</a></div>
+    </div>
+  </header>
+
+  <main class="wrap doc" id="main">
+    <section class="hero doc-hero">
+      <p class="eyebrow">WESO · Terra Classic · columbus-5</p>
+      <h1 class="title"><span class="grad">METHODOLOGY</span></h1>
+      <p class="lede">How every number on the stats page and in <code>data/listing/</code> is calculated, where it comes from, and what is not covered yet. All reads are public and read-only.</p>
+    </section>
+
+    <section class="panel">
+      <h2 class="section-title">At a glance</h2>
+      <p class="panel-sub">Values from the last data build (block <b data-k="block"></b>, <span data-k="updated"></span>). The stats page refreshes price and supply live from the chain.</p>
+      <div class="kpis doc-kpis" id="glance"></div>
+      <div class="table-scroll">
+        <table class="doc-table">
+          <thead><tr><th>Field</th><th>Definition</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td>price_lunc</td><td>Marginal curve price, LUNC per WESO</td><td><code>curve_info.spot_price</code> ÷ 10<sup>6</sup></td></tr>
+            <tr><td>price_usd</td><td>price_lunc × LUNC/USD</td><td>CoinGecko <code>terra-luna</code></td></tr>
+            <tr><td>total_supply</td><td>All WESO in existence</td><td><code>token_info.total_supply</code></td></tr>
+            <tr><td>circulating_supply</td><td>total_supply − balances of 4 protocol/DAO wallets</td><td>CW20 <code>balance</code> queries</td></tr>
+            <tr><td>max_supply</td><td><code>null</code>: no mint cap on chain (design target 7B)</td><td><code>minter</code> query (cap null)</td></tr>
+            <tr><td>market_cap</td><td>circulating_supply × price</td><td>derived</td></tr>
+            <tr><td>fully_diluted_valuation</td><td>total_supply × price</td><td>derived</td></tr>
+            <tr><td>volume_24h</td><td>Value of all WESO swaps in the last 24 hours</td><td>LCD tx index, <code>swap</code> events</td></tr>
+            <tr><td>tvl_onchain</td><td>Liquid LUNC in the WESO contract + LUNC staked by the Validator Network DAO</td><td>bank + staking queries</td></tr>
+            <tr><td>tvl_defillama</td><td>DefiLlama's WESO DeFi protocol TVL</td><td><code>api.llama.fi/protocol/weso-defi</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="price" class="panel">
+      <h2 class="section-title">Price</h2>
+      <p>WESO has no order book and no deep AMM pool. Its market is the <b>token bonding curve</b> in the WESO contract itself (<code>terra13ryrrl…jsld36ms</code>, code 11462). The contract publishes its current marginal price as <code>curve_info.spot_price</code> in micro-LUNC per WESO. That number is the listed price.</p>
+      <ul>
+        <li><b>Why spot, not last trade.</b> On a curve every trade has its own average price, and buys and sells settle differently. Spot is the one price the contract itself reports, and it equals the Curves 2.0 spec at the current curve supply (largest gap over the history window: <b data-k="specgap"></b>).</li>
+        <li><b>What traders actually pay.</b> Buys pay a 1.99% tax (net factor 0.9801), so the effective buy price is about 2% above spot. Sells are settled through the contract's XYK buffer and lose about 1.5%. Per-trade effective prices are in <a href="data/listing/history/weso-trades.json">weso-trades.json</a> (<code>price_lunc</code> = LUNC ÷ WESO).</li>
+        <li><b>USD.</b> price_usd = price_lunc × LUNC/USD. Live: CoinGecko <code>/simple/price?ids=terra-luna</code>. History: CoinGecko <code>/coins/terra-luna/market_chart</code> (hourly for 90 days, daily for 365 days), interpolated to each timestamp.</li>
+        <li><b>Why the LUNC price barely moves.</b> The curve price depends only on curve supply, so it changes only when buys and sells don't net out. In the history window it moved <b data-k="lunc_move"></b> in LUNC, while the USD price follows LUNC itself.</li>
+      </ul>
+    </section>
+
+    <section id="supply" class="panel">
+      <h2 class="section-title">Supply</h2>
+      <div class="doc-grid">
+        <div class="note ok"><h3>Total supply</h3><p><code>token_info.total_supply</code> on the WESO CW20: <b data-k="total"></b> WESO. It has been constant over the whole history window, because curve buys are paid out of tokens already issued and sells return tokens.</p></div>
+        <div class="note"><h3>Curve supply</h3><p><code>curve_info.supply</code>: <b data-k="curve"></b>. This is the curve's own counter and the input to the price formula. It is <b>not</b> total supply: about 327M WESO sit off the curve, mostly in the Capacitor DAO pool.</p></div>
+        <div class="note warn"><h3>Max supply</h3><p>Reported as <code>null</code>. The <code>minter</code> query returns the contract itself with cap <code>null</code>, so the chain enforces no maximum. The Curves 2.0 design plans <b>7,000,000,000</b> WESO over 10 years; it appears as <code>design_max_supply</code> and is not used for FDV.</p></div>
+        <div class="note bad"><h3>Not used</h3><p>The weso.world API reports 10B total and 9.31B burned. Those figures don't match any chain query, so they are left out. See the deep dive, section 5.</p></div>
+      </div>
+    </section>
+
+    <section id="circulating" class="panel">
+      <h2 class="section-title">Circulating supply</h2>
+      <p><b>circulating = total_supply − Σ balance(non-circulating wallets)</b>. The list contains only wallets that are protocol-controlled or DAO treasuries, each identified in the WESO wasm, the DAO Lite pages or on chain. Unlabelled large holders are <b>counted as circulating</b>, because nothing public shows they are locked.</p>
+      <div class="table-scroll">
+        <table class="doc-table" id="noncirc">
+          <thead><tr><th>Wallet</th><th>Address</th><th>Why excluded</th><th>Balance</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <p class="footnote">Balances are read at every sampled block (CW20 <code>{"balance":{"address":…}}</code> query on the WESO contract), so circulating supply is a time series too. Before the historical state window opens (<span data-k="state_from"></span>), it is held at the first verified value and flagged <code>circulating_estimated</code>. <b>Open question:</b> the three unlabelled wallets ranked 2–4 hold about 39% of supply. If they turn out to be team, DAO or Capacitor sub-accounts, they should move to this list.</p>
+      <p class="footnote">Reproduce: <code>curl "$LCD/cosmwasm/wasm/v1/contract/terra13ryrr…/smart/$(echo -n '{"balance":{"address":"terra1xym3…"}}' | base64 -w0)"</code></p>
+    </section>
+
+    <section id="volume" class="panel">
+      <h2 class="section-title">Volume, market cap and TVL</h2>
+      <ul>
+        <li><b>Volume.</b> Every successful tx touching the WESO contract is pulled from the LCD tx index (<code>wasm._contract_address='terra13ryrr…'</code>, queried in 20,000-block chunks). Each <code>swap</code> event on the curve counts once: buys at the LUNC paid (including tax), sells at the LUNC received. Swaps on WesoSwap pools that move WESO are included the same way (none in the current window). USD uses the hourly LUNC price at the trade time. 24h volume is a rolling 24 hours.</li>
+        <li><b>Market cap</b> = circulating × price. <b>FDV</b> = total supply × price, because there is no on-chain max supply.</li>
+        <li><b>TVL (chain)</b> = liquid LUNC held by the WESO contract (bank balance) + LUNC delegated by the Validator Network DAO (<code>terra17x9tpp…</code>), where about 80% of every buy goes. This is the LUNC that backs the curve.</li>
+        <li><b>TVL (DefiLlama)</b> is shown as published. DefiLlama's methodology: "<span data-k="llama_method"></span>" Because it also counts the CWLUNC and CWUSTC wrap vaults and the AMM pools, it runs slightly above the chain figure.</li>
+      </ul>
+    </section>
+
+    <section id="history-data" class="panel">
+      <h2 class="section-title">How the history is built</h2>
+      <p><code>scripts/build-history.mjs</code> rebuilds everything from public endpoints with GET requests only.</p>
+      <ol>
+        <li><b>Historical state (exact).</b> <code>curve_info</code>, <code>token_info</code>, the four wallet balances, the contract's LUNC and the DAO's delegations are read every 4 hours (hourly for the last 48 hours) using the <code>x-cosmos-block-height</code> header. A response is accepted only if the node echoes the requested height. During testing, <code>publicnode</code> returned cached state for other heights, so historical reads use <code>lcd.terra-classic.hexxagon.io</code>. Window: <b data-k="state_from"></b> → now.</li>
+        <li><b>Trade replay (exact, validated).</b> Before the state window, curve supply is rebuilt by walking every curve trade backwards from the latest verified state: a buy adds <code>return_amount</code> and a sell removes <code>offer_amount</code>. Price then comes from the verified spec. Over all <b data-k="samples"></b> state samples, the rebuilt supply differs from the chain by at most <b data-k="recon"></b> WESO. Window: <b data-k="trades_from"></b> → now.</li>
+        <li><b>Documented snapshots.</b> Points published by the project, plotted separately and never mixed into the daily series: 22 Mar 2026, 39.71 LUNC per WESO (Luna Classic DAO on Medium).</li>
+        <li><b>DefiLlama.</b> Daily protocol TVL since DefiLlama listed WESO DeFi (<b data-k="llama_from"></b>).</li>
+      </ol>
+      <div class="note warn"><h3>Skipped, and why</h3><p>Daily price history before <span data-k="trades_from"></span> is skipped: public Terra Classic nodes prune state and the tx index after 2–4 weeks, and no archive LCD was available. With one, the same script covers the full life of the contract (<code>--lcd</code>, <code>--tx-lcd</code>). WESO has no CoinGecko or CoinMarketCap listing yet, DefiLlama has no price feed for it, and GeckoTerminal doesn't index Terra Classic, so there is no third-party WESO price history to fall back on.</p></div>
+    </section>
+
+    <section id="files" class="panel">
+      <h2 class="section-title">Listing data files</h2>
+      <p class="panel-sub">Static files in <code>data/listing/</code>, with the field names CoinGecko and CoinMarketCap ask for in listing forms and supply endpoints.</p>
+      <div class="table-scroll">
+        <table class="doc-table">
+          <thead><tr><th>File</th><th>Contents</th><th>Mirrors</th></tr></thead>
+          <tbody>
+            <tr><td><a href="data/listing/weso.json">weso.json</a></td><td>price_usd, price_lunc, total / circulating / max supply, market cap, FDV, 24h and 7d volume, TVL, price change, non-circulating list, sources, coverage</td><td>CG coin data · CMC quotes/latest</td></tr>
+            <tr><td><a href="data/listing/supply/total.txt">supply/total.txt</a></td><td>Plain number</td><td>CG and CMC total-supply endpoint</td></tr>
+            <tr><td><a href="data/listing/supply/circulating.txt">supply/circulating.txt</a></td><td>Plain number</td><td>CG and CMC circulating-supply endpoint</td></tr>
+            <tr><td><a href="data/listing/supply/max.txt">supply/max.txt</a></td><td><code>null</code></td><td>max-supply endpoint</td></tr>
+            <tr><td><a href="data/listing/supply/supply.json">supply/supply.json</a></td><td>All supply fields and the non-circulating wallets</td><td>—</td></tr>
+            <tr><td><a href="data/listing/history/weso-daily.csv">history/weso-daily.csv</a> · <a href="data/listing/history/weso-daily.json">.json</a></td><td>Daily OHLC (LUNC), close USD, volume, supplies, market cap, FDV, TVL, source per row</td><td>CMC historical OHLCV</td></tr>
+            <tr><td><a href="data/listing/history/weso-intraday.csv">history/weso-intraday.csv</a> · <a href="data/listing/history/weso-intraday.json">.json</a></td><td>4-hourly (hourly for the last 48h) state samples with block heights</td><td>—</td></tr>
+            <tr><td><a href="data/listing/history/weso-market_chart.json">history/weso-market_chart.json</a></td><td><code>prices</code>, <code>market_caps</code>, <code>total_volumes</code> as [ms, usd]</td><td>CG /coins/{id}/market_chart</td></tr>
+            <tr><td><a href="data/listing/history/weso-trades.json">history/weso-trades.json</a></td><td>Every swap: time, height, tx hash, side, WESO, LUNC, USD</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="contracts" class="panel">
+      <h2 class="section-title">Contract addresses</h2>
+      <p class="panel-sub">Verified on columbus-5 by the deep dive (<code>bot/knowledge/lanes/token/deep-dive-2026-10-08/</code>) and by this page's build.</p>
+      <div class="table-scroll">
+        <table class="doc-table addr-table">
+          <thead><tr><th>Role</th><th>Address</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>WESO token + bonding curve</td><td><code>terra13ryrrlcskwa05cd94h54c8rnztff9l82pp0zqnfvlwt77za8wjjsld36ms</code></td><td>CW20 + curve in one contract, code 11462, 6 decimals</td></tr>
+            <tr><td>Validator Network DAO</td><td><code>terra17x9tpp4ngn7hywnaleeqwjszyzws7hpy8tx0w35swyevuf9g4c9ssl7tml</code></td><td>Receives ~80% of buys and stakes them</td></tr>
+            <tr><td>Capacitor DAO pool</td><td><code>terra1xym3yrnzqpqxnvdn8txtpfvx0hvknp5deg3pcng6m6820jz5ddjqs3pce3</code></td><td>Hard-coded in the WESO wasm; non-circulating</td></tr>
+            <tr><td>Luna Classic DAO</td><td><code>terra1wkdm6wcm4srahrvp09jea7csfq3yuacc4gmyft6p6n6pls9wy5js9lqhqq</code></td><td>Treasury; non-circulating</td></tr>
+            <tr><td>WESO DeFi Sub-DAO</td><td><code>terra1n3rrtu8k957my5elc8nh2vhdf0ew3wemtmspjul6uqltfafd8qxqk3dz4f</code></td><td>Code 9975; non-circulating</td></tr>
+            <tr><td>Luna Classic Rewards Pool DAO</td><td><code>terra1a7m26klph99gkyavt4aq6x3mcl363sy9ul7mc9983s0akq683sdq6lzzl7</code></td><td>Hard-coded in the WESO wasm</td></tr>
+            <tr><td>Creator</td><td><code>terra1ghewclqpgu2j2pr76g3m3d945ldfyv58zrucp9</code></td><td>Contract creator; WesoSwap factory owner</td></tr>
+            <tr><td>Admin (REBASE, factory, wraps)</td><td><code>terra12pvn7k6uc7hptqsdegg2synz4zgetqplr7ls8u</code></td><td>Admin key</td></tr>
+            <tr><td>Burn module</td><td><code>terra1sk06e3dyexuq4shw77y3dsv480xv42mq73anxu</code></td><td>Hard-coded in the WESO wasm</td></tr>
+            <tr><td>reBASE curve</td><td><code>terra1uewxz67jhhhs2tj97pfm2egtk7zqxuhenm4y4m</code></td><td>USTC bonding curve, code 11463</td></tr>
+            <tr><td>WesoSwap factory</td><td><code>terra1veqa6znu8lfdmz9kp9v047chfmn84q5k3pacme75gl8ywmplk92q6xnq2k</code></td><td>Code 11627, 8 pairs</td></tr>
+            <tr><td>WesoSwap router</td><td><code>terra1nynrxdccq0r9ghrz0sq7tjkkh8wug0ggg4lkzsags8r9dyhf7ypqx5gsr8</code></td><td>Code 11492</td></tr>
+            <tr><td>CWLUNC wrap</td><td><code>terra10fusc7487y4ju2v5uavkauf3jdpxx9h8sc7wsqdqg4rne8t4qyrq8385q6</code></td><td>Code 11412; counted by DefiLlama</td></tr>
+            <tr><td>CWUSTC wrap</td><td><code>terra1uncwzdhxdktqpx4rj6mkuhl0ekv0raua0058rr7zgnapm9najyyqgtpf6h</code></td><td>Code 11418; counted by DefiLlama</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="footnote">Endpoints: live reads <code>https://terra-classic-lcd.publicnode.com</code>; historical state <code>https://lcd.terra-classic.hexxagon.io</code>; LUNC/USD <code>api.coingecko.com</code>; TVL <code>api.llama.fi</code>. This site never signs, sends or posts anything. Not financial advice.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer"><div class="wrap"><p>WESO bonding curve stats · <a href="index.html">back to the stats page</a> · data built <span data-k="built"></span>. <b>Team preview, do not share.</b></p></div></footer>
+
+  <script src="data/history-bundle.js"></script>
+  <script>
+    (function () {
+      var H = window.HISTORY_DATA;
+      if (!H) return;
+      var L = H.listing, C = L.coverage;
+      var nf = function (x, d) { return Number.isFinite(x) ? x.toLocaleString("en-US", { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }) : "—"; };
+      var day = function (s) { return new Date(s).toLocaleDateString("en-US", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }); };
+      var stamp = function (s) { return new Date(s).toISOString().slice(0, 16).replace("T", " ") + " UTC"; };
+      var usd = function (x) { return x >= 1e6 ? "$" + (x / 1e6).toFixed(2) + "M" : x >= 1 ? "$" + nf(x, 0) : "$" + x.toPrecision(4); };
+      var chain = H.daily.filter(function (r) { return r.source && r.source.indexOf("chain") === 0; });
+      var first = chain[0], last = chain[chain.length - 1];
+      var map = {
+        block: nf(L.block_height),
+        updated: stamp(L.last_updated),
+        total: nf(L.total_supply),
+        curve: nf(H.intraday[H.intraday.length - 1].curve_supply) + " WESO",
+        specgap: (C.spec_vs_spot_max_rel_error * 100).toPrecision(2) + "%",
+        lunc_move: first && last ? nf(first.close_lunc, 4) + " → " + nf(last.close_lunc, 4) + " (" + ((last.close_lunc / first.close_lunc - 1) * 100).toFixed(2) + "%)" : "—",
+        state_from: day(C.chain_history_from),
+        trades_from: day(C.price_from_trades_from || C.trades_from),
+        llama_from: C.defillama_from ? day(C.defillama_from) : "—",
+        samples: nf(H.intraday.length),
+        recon: C.supply_rebuild_max_error_weso < 1e-6 ? "< 0.000001" : String(+C.supply_rebuild_max_error_weso.toPrecision(2)),
+        built: stamp(H.built_at),
+        llama_method: "TVL is AMM pool reserves on the WESO DeFi factory plus the native LUNC locked in the $WESO bonding curve, plus native USTC in the CWUSTC wrap vault bank and native LUNC in the CWLUNC wrap vault bank as circulating 1:1 backing …",
+      };
+      document.querySelectorAll("[data-k]").forEach(function (el) { if (map[el.dataset.k] != null) el.textContent = map[el.dataset.k]; });
+      var tiles = [
+        ["Price", usd(L.price_usd), nf(L.price_lunc, 4) + " LUNC"],
+        ["Market cap", usd(L.market_cap_usd), "circulating × price"],
+        ["Circulating", nf(L.circulating_supply), ((L.circulating_supply / L.total_supply) * 100).toFixed(1) + "% of total"],
+        ["Total supply", nf(L.total_supply), "max supply: none on chain"],
+        ["FDV", usd(L.fully_diluted_valuation_usd), "total × price"],
+        ["Volume 24h", usd(L.volume_24h_usd), L.trades_24h + " trades"],
+        ["TVL (chain)", usd(L.tvl_onchain_usd), "liquid + DAO-staked LUNC"],
+        ["TVL (DefiLlama)", L.tvl_defillama_usd ? usd(L.tvl_defillama_usd) : "—", "protocol-wide"],
+      ];
+      document.getElementById("glance").innerHTML = tiles.map(function (t) {
+        return '<div class="kpi"><div class="k">' + t[0] + '</div><div class="v">' + t[1] + '</div><div class="s">' + t[2] + "</div></div>";
+      }).join("");
+      var why = {
+        "terra13ryrrlcskwa05cd94h54c8rnztff9l82pp0zqnfvlwt77za8wjjsld36ms": "Contract's own WESO: the XYK inventory that pays sellers. Not held by anyone.",
+        "terra1xym3yrnzqpqxnvdn8txtpfvx0hvknp5deg3pcng6m6820jz5ddjqs3pce3": "Reserve pool hard-coded in the WESO wasm; DAO Lite describes it as holding tokens on reserve.",
+        "terra1wkdm6wcm4srahrvp09jea7csfq3yuacc4gmyft6p6n6pls9wy5js9lqhqq": "DAO treasury, spent only by DAO vote.",
+        "terra1n3rrtu8k957my5elc8nh2vhdf0ew3wemtmspjul6uqltfafd8qxqk3dz4f": "Project Sub-DAO contract (code 9975).",
+      };
+      document.querySelector("#noncirc tbody").innerHTML = L.non_circulating.map(function (w) {
+        return "<tr><td>" + w.label + "</td><td><code>" + w.address + "</code></td><td>" + (why[w.address] || "") + '</td><td class="num">' + nf(w.balance) + "</td></tr>";
+      }).join("") + '<tr class="tot"><td><b>Total non-circulating</b></td><td></td><td></td><td><b>' + nf(L.non_circulating_total) + "</b></td></tr>";
+    })();
+  </script>
+</body>
+</html>
