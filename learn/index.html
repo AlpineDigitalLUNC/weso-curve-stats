@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Learn more and request a call · WESO</title>
+  <meta name="description" content="What WESO is: a memetility token on Terra Classic with an on-chain bonding curve, plus WESO DeFi, the reBASE companion project and WESO Energy, a sugar-free energy drink. Pick what interests you and request a call." />
+  <meta name="theme-color" content="#030309" />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" href="../assets/img/weso_favicon.png" />
+  <link rel="preload" href="../assets/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../assets/fonts/GeistMono-Variable.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../assets/styles.css" />
+  <link rel="stylesheet" href="learn.css" />
+  <script src="learn.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="sky" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="../">
+        <img src="../assets/img/weso-logo.png" alt="WESO" width="32" height="32" />
+        <span class="brand-text">WESO <span class="brand-sub">DeFi</span></span>
+      </a>
+      <nav class="topnav" aria-label="Sections">
+        <a href="#interests">Explore</a>
+        <a href="#contact">Request a call</a>
+        <a href="../">Live stats</a>
+        <a href="../methodology.html">Methodology</a>
+        <a href="https://weso.world" rel="noopener">weso.world</a>
+      </nav>
+      <div class="status"><a class="neon-btn small" href="../">← Live stats</a></div>
+    </div>
+  </header>
+
+  <main class="wrap learn-main" id="main">
+
+    <!-- 1. Hero -->
+    <section class="hero learn-hero">
+      <p class="eyebrow">WESO · Terra Classic · Learn more</p>
+      <h1 class="title"><span class="grad">We Are So Back.</span></h1>
+      <p class="lede">WESO is a memetility token on Terra Classic: meme energy plus real utility, built to help revive LUNC and USTC beyond burn-only tactics.</p>
+      <div class="hero-cta">
+        <a class="cta cta-primary" href="#contact">Request a call</a>
+        <a class="cta cta-ghost" href="../">See the live on-chain stats</a>
+        <a class="cta cta-ghost" href="https://weso.world" rel="noopener">weso.world</a>
+      </div>
+    </section>
+
+    <!-- 2. Interest picker -->
+    <section id="interests" class="panel">
+      <div class="panel-head">
+        <div>
+          <h2 class="section-title">What are you interested in?</h2>
+          <p class="panel-sub">Pick one or more. Each choice opens a short fact sheet and ticks the matching box in the form below.</p>
+        </div>
+        <button type="button" class="link-btn" id="pick-clear" hidden>Clear selection</button>
+      </div>
+
+      <div class="picker" role="group" aria-label="Interests">
+        <button type="button" class="pick k-weso" data-key="weso" aria-pressed="false">
+          <span class="pick-logo"><img src="../assets/img/weso-logo.png" alt="" width="32" height="32" /></span>
+          <span class="pick-text"><span class="t1">WESO</span><span class="t2">Token and bonding curve</span></span>
+          <span class="tick" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <button type="button" class="pick k-rebase" data-key="rebase" aria-pressed="false">
+          <span class="pick-logo"><img src="../assets/img/rebase-logo.png" alt="" width="32" height="32" /></span>
+          <span class="pick-text"><span class="t1">reBASE</span><span class="t2">Companion project, USTC curve</span></span>
+          <span class="tick" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <button type="button" class="pick k-defi" data-key="defi" aria-pressed="false">
+          <span class="pick-logo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 8h13M14 4l4 4-4 4M20 16H7M10 12l-4 4 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="pick-text"><span class="t1">WESO DeFi</span><span class="t2">weso.world, DEX and wallet</span></span>
+          <span class="tick" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <button type="button" class="pick k-energy" data-key="energy" aria-pressed="false">
+          <span class="pick-logo"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" fill="currentColor"/></svg></span>
+          <span class="pick-text"><span class="t1">WESO Energy</span><span class="t2">Sugar-free energy drink</span></span>
+          <span class="tick" aria-hidden="true"><svg viewBox="0 0 16 16" width="12" height="12"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+      </div>
+      <p id="pick-status" class="sr-only" aria-live="polite"></p>
+
+      <div class="facts">
+        <div class="pick-empty" id="pick-empty">
+          <p class="big-hint">Pick a topic to start.</p>
+          <p>The token and its curve, the reBASE companion project, WESO DeFi on weso.world, or the energy drink. Choose what matters to you and the call will follow your lead.</p>
+          <button type="button" class="link-btn" id="pick-all">Or show everything</button>
+        </div>
+
+        <section class="fact" data-key="weso" hidden aria-labelledby="fact-weso-title">
+          <div class="fact-head k-weso">
+            <span class="kicker">01</span>
+            <h3 id="fact-weso-title">WESO, the token</h3>
+          </div>
+          <p class="intro">WESO is a memetility token on Terra Classic: meme energy plus real utility, built to help revive LUNC and USTC beyond burn-only tactics.</p>
+          <div class="cards">
+            <div class="card pink">
+              <h3>A bonding curve on LUNC</h3>
+              <p>WESO is bought with LUNC directly from its contract. Price follows a published curve: 1 LUNC at launch, 200 LUNC at 1B WESO, rising to 2,523 LUNC at the 7B design cap. Sells settle through a constant-product pool held by the same contract.</p>
+            </div>
+            <div class="card violet">
+              <h3>LUNC goes to staking</h3>
+              <p>About 80% of the LUNC from each buy is forwarded to the Validator Network DAO, a 4-member multisig, and staked with Terra Classic validators (LUNCLIVE, Alpine Digital, Luna Classic DAO).</p>
+            </div>
+            <div class="card cyan">
+              <h3>Verifiable on chain</h3>
+              <p>Supply, curve position and DAO stake are read live from the chain on our stats page, with methodology published. Use on-chain supply (about 1.016B WESO as of October 2026), not third-party API totals.</p>
+              <p class="addr">terra13ryrrlcskwa05cd94h54c8rnztff9l82pp0zqnfvlwt77za8wjjsld36ms</p>
+            </div>
+          </div>
+          <p class="fact-links"><a href="../">Live curve stats</a><a href="../methodology.html">Methodology</a></p>
+        </section>
+
+        <section class="fact" data-key="rebase" hidden aria-labelledby="fact-rebase-title">
+          <div class="fact-head k-rebase">
+            <span class="kicker">02</span>
+            <h3 id="fact-rebase-title">reBASE</h3>
+          </div>
+          <div class="cards two">
+            <div class="card violet">
+              <h3>Companion project</h3>
+              <p>reBASE is the companion mining and tap-to-earn project discussed alongside WESO, with its own USTC curve.</p>
+            </div>
+            <div class="card cyan">
+              <h3>On the same stats page</h3>
+              <p>Its stats sit in a tab on the same live page as WESO, read from the chain with the methodology published.</p>
+            </div>
+          </div>
+          <p class="fact-links"><a href="../">Live curve stats</a></p>
+        </section>
+
+        <section class="fact" data-key="defi" hidden aria-labelledby="fact-defi-title">
+          <div class="fact-head k-defi">
+            <span class="kicker">03</span>
+            <h3 id="fact-defi-title">WESO DeFi</h3>
+          </div>
+          <div class="cards two">
+            <div class="card cyan">
+              <h3>weso.world</h3>
+              <p>weso.world is the home of WESO DeFi and the WESO DEX: the curve, swaps and the wallet surface.</p>
+            </div>
+            <div class="card green">
+              <h3>Tracked on DefiLlama</h3>
+              <p>WESO is tracked on DefiLlama. Supply, curve position and DAO stake are also read live from the chain on our stats page.</p>
+            </div>
+          </div>
+          <p class="fact-links"><a href="https://weso.world" rel="noopener">weso.world</a><a href="../">Live curve stats</a></p>
+        </section>
+
+        <section class="fact" data-key="energy" hidden aria-labelledby="fact-energy-title">
+          <div class="fact-head k-energy">
+            <span class="kicker">04</span>
+            <h3 id="fact-energy-title">WESO Energy</h3>
+          </div>
+          <div class="cards">
+            <div class="card amber">
+              <h3>Cosmic Orange</h3>
+              <dl class="kv">
+                <dt>Format</dt><dd>12 fl oz can</dd>
+                <dt>Caffeine</dt><dd>250 mg</dd>
+                <dt>Sugar</dt><dd>0 g</dd>
+                <dt>Sweeteners</dt><dd>No sucralose, ace-K or aspartame</dd>
+              </dl>
+            </div>
+            <div class="card amber">
+              <h3>A drink first</h3>
+              <p>Sugar-free focus and recharge. Clean caffeine you can finish reading the label for. Buy it like a drink, drink it like a drink. Wallet optional.</p>
+            </div>
+            <div class="card amber">
+              <h3>Early feedback</h3>
+              <p>The team has been sampling cans with first responders, gyms and its own networks. Reported feedback so far: a clean, smooth energy profile that helps concentration, with some tasters asking for a little more sweetness and carbonation.</p>
+            </div>
+          </div>
+          <p class="fact-note">Product site (proof of concept): <a href="https://www.wesoenergy.com/" rel="noopener">wesoenergy.com</a>. An optional redeem flow links cans to a Terra Classic WESO wallet.</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- 3. Contact form -->
+    <section id="contact" class="panel">
+      <div class="panel-head">
+        <div>
+          <h2 class="section-title">Talk to us</h2>
+          <p class="panel-sub">Want to understand the mechanism, the drink, or where the project is heading? Leave your details and we will set up a call. Every field is optional.</p>
+        </div>
+      </div>
+
+      <form id="call-form" novalidate autocomplete="on">
+        <div class="form-grid">
+          <div class="field">
+            <label for="f-email">Email <span class="opt">optional</span></label>
+            <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@example.com" />
+          </div>
+          <div class="field">
+            <label for="f-name">Name <span class="opt">optional</span></label>
+            <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Your name" />
+          </div>
+          <div class="field">
+            <label for="f-org">Organisation <span class="opt">optional</span></label>
+            <input id="f-org" name="organisation" type="text" autocomplete="organization" placeholder="Company, fund, validator, gym, shop" />
+          </div>
+          <div class="field">
+            <label for="f-role">Role <span class="opt">optional</span></label>
+            <input id="f-role" name="role" type="text" autocomplete="organization-title" placeholder="What you do there" />
+          </div>
+
+          <fieldset class="field full">
+            <legend>Interests <span class="opt">optional, synced with the picker above</span></legend>
+            <div class="checks">
+              <label class="check k-weso"><input type="checkbox" name="interests" value="weso" /> WESO</label>
+              <label class="check k-rebase"><input type="checkbox" name="interests" value="rebase" /> reBASE</label>
+              <label class="check k-defi"><input type="checkbox" name="interests" value="defi" /> WESO DeFi</label>
+              <label class="check k-energy"><input type="checkbox" name="interests" value="energy" /> WESO Energy</label>
+            </div>
+          </fieldset>
+
+          <div class="field full">
+            <label for="f-message">Message <span class="opt">optional</span></label>
+            <textarea id="f-message" name="message" rows="5" placeholder="What would you like to cover on the call?"></textarea>
+          </div>
+          <div class="field full">
+            <label for="f-time">Preferred call or video time <span class="opt">optional, free text</span></label>
+            <input id="f-time" name="time" type="text" placeholder="For example: weekday mornings, Central European time" />
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="cta cta-primary" id="send-btn">Request a call</button>
+          <p class="form-hint" id="send-hint">Opens your mail app with the details filled in. Nothing is sent from this page itself.</p>
+        </div>
+      </form>
+
+      <div class="after">
+        <div class="fallback" id="fallback" hidden>
+          <span id="fallback-why">If no mail app opened, copy the details and send them yourself:</span>
+          <button type="button" class="neon-btn small" id="copy-btn">Copy details</button>
+          <a class="addr-link" href="mailto:alpine@lunaclassicdao.com?subject=WESO%3A%20request%20a%20call">alpine@lunaclassicdao.com</a>
+          <details class="copy-details">
+            <summary>Show the text</summary>
+            <textarea id="copy-text" readonly rows="10" aria-label="Details to copy"></textarea>
+          </details>
+        </div>
+        <div class="done" id="done" hidden tabindex="-1" role="status" aria-live="polite">
+          <h3>Thanks.</h3>
+          <p>WESO will reach out to set up a call or video conference. If you want to go deeper, an NDA is available for full access.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Risk disclaimer -->
+    <aside class="panel risk" aria-labelledby="risk-title">
+      <h2 class="section-title" id="risk-title">Please read</h2>
+      <p>This page is information only. It is not an offer or solicitation to buy or sell any token or security, and not investment, legal or tax advice. Nothing here promises yield, returns or price. Crypto assets are highly volatile and you can lose everything. Specific risks include: smart-contract and admin-key risk (the WESO contract has an active admin with migrate rights); limited exit liquidity, since sells settle against a small pool rather than the staked LUNC; staked LUNC is controlled by a 4-member DAO multisig with a 21-day unbonding period; dependence on LUNC price and Terra Classic chain health; and regulatory uncertainty, including for US persons. Do your own research and read the on-chain data.</p>
+    </aside>
+  </main>
+
+  <!-- 5. Footer -->
+  <footer class="site-footer learn-footer">
+    <div class="wrap">
+      <p>WESO · Luna Classic LLC (Wyoming) · <a href="../">Live stats</a> · <a href="../methodology.html">Methodology</a> · <a href="https://weso.world" rel="noopener">weso.world</a> · <a href="mailto:alpine@lunaclassicdao.com?subject=WESO%3A%20request%20a%20call">alpine@lunaclassicdao.com</a></p>
+      <p>Information only. Not an offer, and not investment, legal or tax advice.</p>
+    </div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
